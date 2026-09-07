@@ -1,11 +1,14 @@
 package com.example.chat.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 
@@ -13,22 +16,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collation = "users")
+@Document(collection = "users")
 public class Users {
     @Id
     private String id;
 
-    @Field(name = "username")
+    @Indexed(unique = true)
     private String username;
 
-    @Field(name = "email")
+    @Indexed(unique = true)
     private String email;
 
-    @Field(name = "password")
     private String password;
-
-    @Field(name = "status")
-    private UserStatus status = UserStatus.offline;
+    private String profilePicture;
+    private UserStatus status;
+    private boolean emailVerified;
+    private String verificationToken;
+    private LocalDateTime verificationTokenExpiresAt;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -37,7 +41,6 @@ public class Users {
     private LocalDateTime updatedAt;
 
     public enum UserStatus {
-        online,
-        offline
+        online, offline
     }
 }

@@ -1,15 +1,19 @@
 package com.example.chat.dtos;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
-        @Size(min = 6, message = "username must be more than 5 letters")
+        @NotBlank(message = "username is required")
+        @Size(min = 3, message = "username must be at least 3 characters")
         String username,
 
+        @NotBlank(message = "email is required")
         @Email(message = "email must be valid")
         String email,
 
-        @Size(min=6, message = "password must be more than 5 letters")
+        @NotBlank(message = "password is required")
+        @Size(min = 6, message = "password must be at least 6 characters")
         String password
 ) {}

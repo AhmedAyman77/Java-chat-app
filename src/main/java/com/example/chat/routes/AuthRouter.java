@@ -10,9 +10,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class AuthRouter {
     @Bean
-    RouterFunction<ServerResponse> authRoute(AuthHandler authHandler) {
+    RouterFunction<ServerResponse> authRoute(AuthHandler handler) {
         return RouterFunctions.route()
-                .POST("auth/register", authHandler::register)
+                .POST("/users/register", handler::register)
+                .POST("/users/login", handler::login)
+                .GET("/users/verify", handler::verify)
+                .GET("/users/{userId}", handler::getUser)
+                .PUT("/users/{userId}", handler::updateUser)
                 .build();
     }
 }
